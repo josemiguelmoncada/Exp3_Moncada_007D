@@ -4,7 +4,7 @@ Descripción breve sobre lo que hace tu proyecto y su propósito.
 ## Tabla de Contenidos
 1. [Instalación](#instalación)
 2. [Uso](#uso)
-3. [Credenciales](#credenciales)
+3. [Credenciales](#Credenciales)
 
 ## Instalación
 

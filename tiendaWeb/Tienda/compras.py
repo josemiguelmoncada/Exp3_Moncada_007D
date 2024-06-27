@@ -19,8 +19,14 @@ class Carrito:
                 "total": producto.precio * cantidad,
             }
         else:
-            self.carrito[producto_id]["cantidad"] += cantidad
-            self.carrito[producto_id]["total"] += producto.precio * cantidad
+            nueva_cantidad = self.carrito[producto_id]["cantidad"] + cantidad
+            
+            # Verificar nuevamente el stock disponible
+            if producto.stock < nueva_cantidad:
+                self.carrito[producto_id]["cantidad"] = producto.stock
+            else:
+                self.carrito[producto_id]["cantidad"] += cantidad
+                self.carrito[producto_id]["total"] += producto.precio * cantidad
         self.guardar_carrito()
     
     def guardar_carrito(self):

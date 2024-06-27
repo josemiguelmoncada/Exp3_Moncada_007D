@@ -189,6 +189,7 @@ def limpiar_carrito(request):
     return redirect('carrito')
 
 def ver_carrito(request):
+    producto = Producto(request)
     carrito_compra = Carrito(request)
     subtotal = carrito_compra.obtener_subtotal_iva()
     total = carrito_compra.obtener_total()
@@ -210,9 +211,11 @@ def generarBoleta(request):
     for key, value in request.session['carrito'].items():
             producto = Producto.objects.get(id_producto = value['id_producto'])
             cant = value['cantidad']
+            producto.stock -= cant # reducir el stock total segun la cantidad que se compro
             subtotal = cant * int(value['precio'])
             s_iva = round(subtotal * 0.19)
             detalle = DetalleBoleta(id_boleta = boleta, id_producto = producto, cantidad = cant, subtotal = subtotal)
+            producto.save()
             detalle.save()
             productos.append(detalle)
     datos={

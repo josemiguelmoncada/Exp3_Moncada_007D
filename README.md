@@ -19,3 +19,13 @@ admin:
     usuario: admin
     contraseña: admin123
 
+usuario1:
+
+    usuario: usuario1
+    contraseña: 7g165x7il
+
+usuario2:
+
+    usuario: usuario2
+    contraseña: 471w6qh9dj7x
+

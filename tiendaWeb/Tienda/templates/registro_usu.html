@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos</title>
+  {% load static %}
+  <link rel="icon" type="image/x-icon" href="{% static 'img/favicon_io(1)/favicon.ico' %}" />
+  <!-- <link rel="icon" type="image/x-icon" href="img/favicon_io/favicon.ico"> -->
+  <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/error_style.css' %}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+
+</head>
+
+<body>
+  <header>
+    <div class="cont_header">
+
+      {% include "header_ul1.html" %}
+
+      <div class="cont_header_down">
+        <nav class="cont_header_down_nav">
+          <ul class="cont_header_down_list list--none">
+            <li>
+              <a class="cont_header_down_nav_link" href="{% url 'index' %}">
+                <p>Inicio</p>
+              </a>
+            </li>
+            <li>
+              <a class="cont_header_down_nav_link" href="{% url 'productos' %}">
+                <p>Productos</p>
+              </a>
+            </li>
+            <li>
+              <a class="cont_header_down_nav_link" href="{% url 'sobre_nosotros' %}">
+                <p>Sobre nosotros</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- .cont_header -->
+  </header>
+
+  <main>
+    <div>
+      <div class="center">
+        <h1>Registro de usuario</h1>
+      </div>
+      <div class="container"  style="background-color: rgba(226, 226, 226, 0.527); border-radius: 1rem; padding: 1rem;">
+
+        <form action="" id="registro" method="POST">
+          {% csrf_token %}
+          <div class="row">
+              <div class="col-md-6">
+                  <label for="{{ form.first_name.id_for_label }}">Nombre (<span>*</span>)</label>
+                  {{ form.first_name }}
+              </div>
+              <div class="col-md-6">
+                  <label for="{{ form.email.id_for_label }}">Correo (<span>*</span>)</label>
+                  {{ form.email }}
+              </div>
+          </div>
+      
+          <div class="row">
+              <div class="col-md-6">
+                  <label for="{{ form.username.id_for_label }}">Usuario (<span>*</span>)</label>
+                  {{ form.username }}
+              </div>
+      
+              <div class="col-md-6">
+                  <label for="{{ form.password1.id_for_label }}">Ingrese su contraseña (<span>*</span>)</label>
+                  {{ form.password1 }}
+                  <label for="{{ form.password2.id_for_label }}">Verifique su contraseña (<span>*</span>)</label>
+                  {{ form.password2 }}
+              </div>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-success">Enviar</button>
+      </form>
+
+      </div>
+      <br>
+    </div>
+  </main>
+
+  {% include "footer.html" %}
+
+  <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'node_modules/jquery/dist/jquery.slim.min.js' %}"></script>
+  <script src="{% static 'node_modules/jquery-validation/dist/jquery.validate.js' %}"></script>
+  <script src="{% static 'js/validacion_form.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+#### Crear y actualizar bd ######
+
+python manage.py makemigrations
+python manage.py migrate
+
+#################################
+
+#### Crear usuario ####
+Paso 1:   python manage.py createsuperuser
+Paso 2:   Username: admin
+Paso 3:   Email address: admin@example.com
+Paso 4:   Agregar contraseña
+
+sp admin, admin
+us usuario1, 7g165x7il
+us usuario2, 471w6qh9dj7x

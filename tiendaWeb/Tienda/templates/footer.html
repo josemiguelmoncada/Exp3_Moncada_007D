@@ -1,0 +1,30 @@
+{% load static %}
+
+<footer class="bg_footer">
+    <div class="footer">
+      <ul class="as list--none">
+        <li>
+          <a class="" href="{% url 'index' %}">
+            <p class="footer_text">Inicio</p>
+          </a>
+        </li>
+        <li>
+          <a class="" href="{% url 'productos' %}">
+            <p class="footer_text">Productos</p>
+          </a>
+        </li>
+        <li>
+          <a class="" href="{% url 'sobre_nosotros' %}">
+            <p class="footer_text">Sobre nosotros</p>
+          </a>
+        </li>
+      </ul>
+
+      <a href="https://www.instagram.com/urmo_natural/" class="footer_link">
+        <img class="footer_img" src="{% static 'img/instagram.ico' %}" alt="instagram" />
+      </a>
+    </div>
+    <div class="copyright">
+      <p>© 2024 Todos los derechos reservados. José Miguel Moncada</p>
+    </div>
+  </footer>

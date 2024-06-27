@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sobre nosotros</title>
+  {% load static %}
+  <link rel="icon" type="image/x-icon" href="{% static 'img/favicon_io(1)/favicon.ico' %}" />
+  <!-- <link rel="icon" type="image/x-icon" href="img/favicon_io/favicon.ico"> -->
+  <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+</head>
+
+<body>
+  <header>
+    <div class="cont_header">
+
+      {% include "header_ul1.html" %}
+
+      <div class="cont_header_down">
+        <nav class="cont_header_down_nav">
+          <ul class="cont_header_down_list list--none">
+            <li>
+              <a class="cont_header_down_nav_link" href="{% url 'index' %}">
+                <p>Inicio</p>
+              </a>
+            </li>
+            <li>
+              <a class="cont_header_down_nav_link" href="{% url 'productos' %}">
+                <p>Productos</p>
+              </a>
+            </li>
+            <li>
+              <a class="cont_header_down_nav_link link_activo" href="{% url 'sobre_nosotros' %}">
+                <p>Sobre nosotros</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- .cont_header -->
+  </header>
+
+  <main>
+    <div class="sn_contenedor">
+      <h1>Sobre nosotros</h1>
+      <div>
+        <div class="sn_contenedor_grid">
+          <div class="video" style="max-width: 100%">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/2KXKeyh-Uwc?si=IyiuK7B3MsXwRxRI"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="sn_texto">
+            <p>
+              En Urmo Natural, convertimos aceite usado en jabones artesanales sostenibles. Desde nuestra cocina hasta
+              tu piel, nos dedicamos a la calidad y al medio ambiente.
+            </p>
+            <p>
+              Cada jabón es hecho a mano con ingredientes naturales y aceite reciclado. Nos enorgullece ofrecer
+              productos buenos para tu piel y para el planeta.
+            </p>
+            <p>
+              En Urmo Natural, valoramos la transparencia y el impacto positivo en nuestra comunidad. Únete a nuestro
+              viaje hacia un futuro más limpio y sostenible. ¡Gracias por elegirnos!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  {% include "footer.html" %}
+
+  <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>

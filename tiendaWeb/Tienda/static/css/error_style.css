@@ -1,0 +1,23 @@
+.form-control{
+    margin-bottom: 10px;
+}
+label{
+    color:black;
+    font-weight: bold;
+    clear:both;
+    float:left;
+}
+
+.error-label{
+    border:1px solid red;
+}
+
+label.error{
+    color:rgba(255, 0, 0, 0.507);
+    font-size:0.8em;
+    margin-top:-10px;
+    float: right;
+    position: relative;
+    right: 8px;
+    bottom: 28px;
+}

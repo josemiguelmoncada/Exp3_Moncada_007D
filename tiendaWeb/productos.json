@@ -1,0 +1,114 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Jabón de lavanda",
+      "img": "https://i.imgur.com/abo4wQx.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Calmante y relajante, ideal para una experiencia de baño rejuvenecedora y aromática.",
+      "ingredientes": "Base de jabón con aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, lavanda, y aceite esencial de lavanda."
+    },
+    {
+      "id": 2,
+      "nombre": "Jabón de aloe vera",
+      "img": "https://i.imgur.com/BJbn2NU.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Hidratante y suavizante, perfecto para pieles sensibles que necesitan cuidado especial.",
+      "ingredientes": "Base de jabón con aloe vera, aceite de coco, aceite de palma, aceite de oliva, aceite de girasol, agua, hidróxido de sodio, y vitamina E."
+    },
+    {
+      "id": 3,
+      "nombre": "Jabón de miel y almendras",
+      "img": "https://i.imgur.com/NG6087U.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Nutritivo y exfoliante, deja la piel suave, radiante y profundamente hidratada.",
+      "ingredientes": "Base de jabón con miel, almendras, aceite de coco, aceite de oliva, agua, hidróxido de sodio, cera de abejas, y aceite esencial de almendra."
+    },
+    {
+      "id": 4,
+      "nombre": "Jabón de rosa mosqueta",
+      "img": "https://i.imgur.com/Pf29dAU.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Hidratante y suavizante, perfecto para pieles sensibles que necesitan cuidado especial.",
+      "ingredientes": "Base de jabón con rosa mosqueta, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y aceite esencial de rosa mosqueta."
+    },
+    {
+      "id": 5,
+      "nombre": "Jabón de leche de cabra",
+      "img": "https://i.imgur.com/qarHx7W.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Nutritivo y calmante, ideal para pieles secas y propensas a la irritación.",
+      "ingredientes": "Base de jabón con leche de cabra, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y leche de cabra en polvo."
+    },
+    {
+      "id": 6,
+      "nombre": "Jabón de menta y eucalipto",
+      "img": "https://i.imgur.com/sltkVUO.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Refrescante y estimulante, proporciona una sensación revitalizante y limpia.",
+      "ingredientes": "Base de jabón con menta, eucalipto, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y aceite esencial de menta y eucalipto."
+    },
+    {
+      "id": 7,
+      "nombre": "Jabón de avena y miel",
+      "img": "https://i.imgur.com/sdC57D6.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Suave y exfoliante, alivia la piel seca y sensible, dejándola suave y humectada.",
+      "ingredientes": "Base de jabón con avena, miel, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y avena molida."
+    },
+    {
+      "id": 8,
+      "nombre": "Jabón de té verde",
+      "img": "https://i.imgur.com/qVbb3T0.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Purificante y antioxidante, ayuda a eliminar impurezas y revitaliza la piel cansada.",
+      "ingredientes": "Base de jabón con té verde, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y extracto de té verde."
+    },
+    {
+      "id": 9,
+      "nombre": "Jabón de lavanda y romero",
+      "img": "https://i.imgur.com/SDPduEA.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Calmante y energizante, perfecto para relajar cuerpo y mente después de un día agitado.",
+      "ingredientes": "Base de jabón con lavanda, romero, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y aceite esencial de lavanda y romero."
+    },
+    {
+      "id": 10,
+      "nombre": "Jabón de limón y jengibre",
+      "img": "https://i.imgur.com/vM151Nu.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Revitalizante y tonificante, deja la piel fresca, radiante y con un aroma estimulante.",
+      "ingredientes": "Base de jabón con limón, jengibre, aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y aceite esencial de limón y jengibre."
+    },
+    {
+      "id": 11,
+      "nombre": "Jabón de aceite de coco",
+      "img": "https://i.imgur.com/hlJA1fP.jpg",
+      "tipo": "Jabón",
+      "precio": "3000",
+      "compras":0,
+      "descripcion": "Hidratante y nutritivo, deja la piel suave, flexible y con un brillo natural.",
+      "ingredientes": "Base de jabón con aceite de coco, aceite de oliva, aceite de palma, agua, hidróxido de sodio, y vitamina E."
+    }
+  ]
+}

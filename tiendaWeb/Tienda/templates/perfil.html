@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon_io(1)/favicon.ico' %}" />
+    <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+
+    <header>
+        <div class="cont_header">
+            {% include "header_ul1.html" %}
+            <div class="cont_header_down">
+                <nav class="cont_header_down_nav">
+                    <ul class="cont_header_down_list list--none">
+                        <li><a class="cont_header_down_nav_link" href="{% url 'index' %}">
+                                <p>Inicio</p>
+                            </a></li>
+                        <li><a class="cont_header_down_nav_link" href="{% url 'productos' %}">
+                                <p>Productos</p>
+                            </a></li>
+                        <li><a class="cont_header_down_nav_link" href="{% url 'sobre_nosotros' %}">
+                                <p>Sobre nosotros</p>
+                            </a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <br>
+        <h2>Perfil de {{ usuario.username }}</h2>
+        <br>
+        <br>
+        <p>Nombre: {{ usuario.first_name }} {{ usuario.last_name }}</p>
+        <br>
+        <p>Email: {{ usuario.email }}</p>
+        <br>
+        <br>
+        <br>
+        <!-- Agrega cualquier otra información del perfil que desees mostrar -->
+
+    </main>
+
+{% include "footer.html" %}
+
+</body>
+</html>
+

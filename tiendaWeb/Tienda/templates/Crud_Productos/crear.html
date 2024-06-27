@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>AdmTiendaWeb</title>
+    {% load static %}
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> {% endcomment %}
+    <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    {% comment %} <link href="{% static 'css/estilos.css' %}" rel="stylesheet"> {% endcomment %}
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .error-control{
+            border: 1px solid red;
+        }
+
+        label.error{
+            color: red;
+            width: 200px;
+            font-size: 0.8em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<main class="container">
+    <h2>Creando Productos</h2>
+    <br>
+    <div class="row">
+        <form action="#" method="post" id="formulario" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% comment %} {{ productoform.as_p }} {% endcomment %}
+            <div class="form-group">
+                {{ Productoform.id_producto.label }}
+                {{ Productoform.id_producto }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.nombre.label }}
+                {{ Productoform.nombre }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.descripcion.label }}
+                {{ Productoform.descripcion }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.ingredientes.label }}
+                {{ Productoform.ingredientes }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.tipo.label }}
+                {{ Productoform.tipo }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.precio.label }}
+                {{ Productoform.precio }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.imagen.label }}
+                {{ Productoform.imagen }}
+            </div>
+            <div class="form-group">
+                {{ Productoform.stock.label }}
+                {{ Productoform.stock }}
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md">
+                    <input type="submit" value="Almacenar" class="btn btn-primary">
+                    <a href="{% url 'panel_admin' %}" class="btn btn-primary">Volver</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+<script>
+    $(function(){
+        $("#formulario").validate({
+            rules: {
+                id_producto: "required",
+                nombre: {
+                    required: true
+                },
+                descripcion: {
+                    required: true
+                },
+                tipo: {
+                    required: true
+                },
+                precio: {
+                    required: true,
+                    number: true
+                },
+                imagen: {
+                    required: true
+                },
+                stock: {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                id_producto: {
+                    required: 'Ingrese Id del Producto'
+                },
+                nombre: {
+                    required: 'Ingrese Nombre del Producto'
+                },
+                descripcion: {
+                    required: 'Ingrese Descripción del Producto'
+                },
+                tipo: {
+                    required: 'Seleccione Tipo de Producto'
+                },
+                precio: {
+                    required: 'Ingrese Precio del Producto',
+                    number: 'Ingrese un valor numérico válido'
+                },
+                imagen: {
+                    required: 'Ingrese Imagen'
+                },
+                stock: {
+                    required: 'Ingrese Stock',
+                    number: 'Ingrese un valor numérico válido'
+                }
+            },
+        });
+    });
+</script>
+</body>
+</html>

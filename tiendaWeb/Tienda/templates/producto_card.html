@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Producto</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="img/favicon_io(1)/favicon.ico" />
+    <!-- <link rel="icon" type="image/x-icon" href="img/favicon_io/favicon.ico"> -->
+    <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+  </head>
+  <body>
+    <header>
+      <div class="cont_header">
+        
+        {% include "header_ul1.html" %}
+
+        <div class="cont_header_down">
+          <nav class="cont_header_down_nav">
+            <ul class="cont_header_down_list list--none">
+              <li>
+                <a class="cont_header_down_nav_link" href="{% url 'index' %}">
+                  <p>Inicio</p>
+                </a>
+              </li>
+              <li>
+                <a class="cont_header_down_nav_link" href="{% url 'productos' %}">
+                  <p>Productos</p>
+                </a>
+              </li>
+              <li>
+                <a class="cont_header_down_nav_link" href="{% url 'sobre_nosotros' %}">
+                  <p>Sobre nosotros</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <!-- .cont_header -->
+    </header>
+
+    <main>
+      <div class="contenedor__producto">
+        <div class="producto__img">
+          <div
+            id="carouselExampleInterval"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner">
+              <div class="carousel-item active" data-bs-interval="10000">
+                <img src="{{ producto.imagen.url }}" class="d-block w-100" alt="..." />
+              </div>
+
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleInterval"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="producto_text">
+          <h1 style="text-align: center;">{{ producto.nombre }}</h1>
+          <h1 style="text-align: start;">
+            descripción
+          </h1>
+          <p>
+            {{ producto.descripcion }}
+          </p>
+          <br>
+          <div>
+            <p>
+              <b>Ingredientes: </b>
+              <i style="opacity: 0.8;">
+                {{ producto.ingredientes }}
+              </i>
+            </p>
+          </div>
+
+          <form class="formulario" method="post" action="{% url 'producto' producto.id_producto %}">
+            {% csrf_token %}
+            <input
+              class="formulario__campo"
+              type="number"
+              name="cantidad" 
+              placeholder="Cantidad"
+              min="1"
+              value="1"
+            />
+            <button type="submit" class="btn_agregar" style="color: #30303056;">Agregar</button> <!-- Cambiar el enlace 'a' por un 'button' submit -->
+            <!-- <a class="btn_agregar">Agregar</a> -->
+          
+          </form>
+        </div>
+      </div>
+    </main>
+
+    {% include "footer.html" %}
+    <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

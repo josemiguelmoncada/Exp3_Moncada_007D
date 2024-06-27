@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>panel admin</title>
+    {% load static %}
+    <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet"/>
+
+    <style>
+        td {
+            vertical-align: middle;
+        }
+        .nav_admin{
+            display: flex;
+            background-color: rgba(0, 0, 255, 0.575);
+            
+        }
+        .nav_admin > div[class='contenido']{  
+            padding: 1em;
+        }
+    </style>
+</head>
+
+{% if user.is_authenticated %}
+{% if user.is_staff %}
+<body>
+    <nav class="nav_admin">
+        <div class="contenido">
+            <a href="{% url 'index' %}" class="btn btn-outline-secondary">Volver</a>
+        </div>
+
+        <div class="contenido">
+            <a href="{% url 'crear_tipo' %}" class="btn btn-secondary" >Crear tipo</a>
+        </div>
+        <div class="contenido">
+            <a href="{% url 'crearProducto' %}" class="btn btn-primary">Agregar Producto</a>
+        </div>
+    </nav>
+    
+
+    <main class="container">
+        <h2>Productos</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Stock</th>
+                    <th>Precio</th>
+                    <th>Actualizar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for prod in producto %}
+                <tr>
+                    <td><a href="{% url 'producto' prod.id_producto %}" class="btn btn-outline-info">{{ prod.id_producto }}</a></td>
+                    <td>{{ prod.nombre }}</td>
+                    <td>{{ prod.tipo }}</td>
+                    <td>{{ prod.stock }}</td>
+                    <td>{{ prod.precio }}</td>
+                    <td><a href="{% url 'modificarProducto' prod.id_producto %}" class="btn btn-warning">Actualizar</a></td>
+                    <td><a href="{% url 'eliminarProducto' prod.id_producto %}" class="btn btn-danger">Eliminar</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+        
+        <h2>Eliminar</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Eliminar</th>
+                    
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for t in tipo %}
+                <tr>
+                    <td>{{ t.nombre }}</td>
+                    <td><a href="{% url 'eliminar_tipo' t.id_tipo %}" class="btn btn-danger">Eliminar</a></td>
+                    
+                    
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+
+    </main>
+</body>
+{% endif %}
+{% else %}
+<script>
+    setTimeout(function() {
+        window.location.href = "{% url 'index' %}";
+    }, 0);
+</script>
+{% endif %}
+</html>

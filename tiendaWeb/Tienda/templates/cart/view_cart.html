@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>carrito</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon_io(1)/favicon.ico' %}" />
+    <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .module {
+            width: 45%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="cont_header">
+            {% include "header_ul1.html" %}
+            <div class="cont_header_down">
+                <nav class="cont_header_down_nav">
+                    <ul class="cont_header_down_list list--none">
+                        <li><a class="cont_header_down_nav_link" href="{% url 'index' %}">
+                                <p>Inicio</p>
+                            </a></li>
+                        <li><a class="cont_header_down_nav_link" href="{% url 'productos' %}">
+                                <p>Productos</p>
+                            </a></li>
+                        <li><a class="cont_header_down_nav_link" href="{% url 'sobre_nosotros' %}">
+                                <p>Sobre nosotros</p>
+                            </a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Módulo de Productos -->
+        <div class="module">
+            <h2>Lista de Productos</h2>
+            <table class="table table-bordered alert alert-warning">
+                <thead>
+                    <tr class="text-center">
+                        <td colspan="3" style="font-weight:bold; font-size:18px">CARRITO</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">Imagen</td>
+                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">Nombre</td>
+                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">PRECIO</td>
+                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">CANTIDAD</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if request.session.carrito.items %}
+                    {% for key, value in request.session.carrito.items %}
+                    <tr>
+
+                        <td style="align-items: center; display: flex;">
+                            <img src="{{ value.imagen }}" alt="" style="max-width: 60px; margin: 0 auto;">
+                        </td>
+                        <td style="font-size:13px">{{ value.nombre }}</td>
+                        <td style="font-size:13px">{{ value.precio }}</td>
+                        <td style="font-size:13px">{{ value.cantidad}}
+                            <br>
+                            <a href="{% url 'agregar1' value.id_producto %}" class="badge btn btn-primary">+</a>
+                            <a href="{% url 'restar' value.id_producto %}" class="badge btn btn-warning">-</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-info text-center" style="font-weight: bold;">Sin Productos</div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Módulo de Dinero -->
+        <div class="module">
+            <h2>Detalles del Carrito</h2>
+            <div role="alert">
+                {% if request.session.carrito.items %}
+                <table class="table table-bordered alert alert-warning">
+                    <thead>
+                        <tr class="text-center">
+                            <td style="font-weight:bold; font-size:18px; width: 180px;">Código</td>
+                            <td style="font-weight:bold; font-size:18px;">Subtotal</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in request.session.carrito.items %}
+                        <tr>
+                            <td style="font-size:13px; text-align: center;">{{ value.id_producto }}</td>
+                            <td style="font-size:13px; text-align: center;">{{ value.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr class="text-center">
+                            <td colspan="2" style="font-weight:bold; font-size:18px">IVA</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size:13px; text-align: center;">{{ subtotal }}</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td colspan="2" style="font-weight:bold; font-size:18px">Total</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="font-size:13px; text-align: center;">{{ total }}</td>
+                        </tr>
+                        
+                        <tr class="text-center">
+                            <td colspan="2" style="font-weight:bold; font-size:18px"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="width: 100%;">
+                                <div style="display: flex; justify-content: space-between; width: 100%;">
+                                    <a href="{% url 'limpiar' %}" class="btn btn-outline-warning" style="flex-grow: 1; margin-right: 10px;">Limpiar</a>
+                                    <a href="{% url 'generarBoleta' %}" class="btn btn-outline-primary" style="flex-grow: 1;">Comprar</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tfoot>
+                </table>
+                {% if not request.session.carrito.items %}
+                <div class="alert alert-info text-center" style="font-weight: bold;">Sin Productos</div>
+                {% endif %}
+
+                {% endif %}
+
+            </div>
+    </main>
+
+    {% include "footer.html" %}
+</body>
+
+</html>

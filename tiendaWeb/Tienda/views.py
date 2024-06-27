@@ -141,6 +141,18 @@ def ver_perfil(request):
     }
     return render(request, 'perfil.html', context)
 
+@login_required
+def actualizar_email(request):
+    if request.method == 'POST':
+        nuevo_email = request.POST.get('email')
+        usuario = request.user
+        usuario.email = nuevo_email
+        usuario.save()
+        messages.success(request, 'Correo electrónico actualizado con éxito')
+        return redirect('ver_perfil')  # Redirige a la página de perfil o cualquier otra página
+
+    return render(request, 'perfil.html')
+
 def cerrar(request):
     logout(request)
     return redirect('index')

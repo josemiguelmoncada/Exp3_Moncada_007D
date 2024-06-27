@@ -142,3 +142,6 @@ class RegistroUsuarioForm(UserCreationForm):
             'id': 'pass2',
             'name': 'pass2'
         })
+        
+class EmailForm(forms.Form):
+    email = forms.EmailField(label='Nuevo correo electrónico', max_length=254)

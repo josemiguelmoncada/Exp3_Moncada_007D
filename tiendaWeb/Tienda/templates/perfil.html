@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <style>
+        #m_correo {
+            color: blue;
+            cursor: pointer;
+        }
+
+        #m_correo:hover{
+            color: rgb(67, 67, 255);
+        }
+    </style>
 </head>
 <body>
 
@@ -42,16 +53,65 @@
         <br>
         <p>Nombre: {{ usuario.first_name }} {{ usuario.last_name }}</p>
         <br>
-        <p>Email: {{ usuario.email }}</p>
+        <p>
+            Email: {{ usuario.email }}
+            <div id="m_correo">Modificar</div>
+            <div id="input_container" style="display: none;">
+                <form id="email_form" method="POST" action="{% url 'actualizar_email' %}">
+                    {% csrf_token %}
+                    <input type="email" name="email" class="form-control" style="padding: 0.5rem;" placeholder="Ingrese su correo electrónico" id="email_input" required>
+                    <button type="submit" class="btn btn-success" style="margin-top: 1rem;">Modificar</button>
+                </form>
+            </div>
+        </p>
         <br>
         <br>
         <br>
-        <!-- Agrega cualquier otra información del perfil que desees mostrar -->
+        <!-- Agrega cualquier otra información del perfil que desees mostrar P.D (pensando que mas mostrar) -->
 
     </main>
 
 {% include "footer.html" %}
 
 </body>
+
+<script>
+    let modif = document.getElementById('m_correo');
+    let inputContainer = document.getElementById('input_container');
+    
+    modif.addEventListener('click', function() {
+        if (inputContainer.style.display === 'none') {
+            // Crear el campo de entrada de tipo email si no existe
+            if (!document.getElementById('email_input')) {
+                let emailInput = document.createElement('input');
+                emailInput.type = 'email';
+                emailInput.className = 'form-control';
+                emailInput.style.padding = '0.5rem';
+                emailInput.placeholder = 'Ingrese su correo electrónico';
+                emailInput.id = 'email_input';
+
+                // Agregar el campo de entrada al contenedor
+                inputContainer.appendChild(emailInput);
+
+                // Crear el botón de modificar
+                let btn = document.createElement('button');
+                btn.textContent = 'Modificar'; // Asignar texto al botón
+                btn.className = 'btn btn-success'; // Asignar clase al botón para estilos
+
+                // Agregar el botón al contenedor
+                inputContainer.appendChild(btn);
+
+                // Evento de clic para el botón
+                btn.addEventListener('click', function() {
+                    let i_email = document.getElementById('email_input');
+                    console.log(i_email.value);
+                });
+            }
+            inputContainer.style.display = 'block';
+        } else {
+            inputContainer.style.display = 'none';
+        }
+    });
+</script>
 </html>
 

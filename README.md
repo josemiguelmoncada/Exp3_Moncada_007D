@@ -14,5 +14,5 @@ Paso a paso sobre cómo instalar y configurar el entorno para que el proyecto fu
 2. Ejecute el archibo runserver.bat o abrir cmd en la carpeta y ejecutar el siguiente comando python manage.py runserver
 
 ## Credenciales
--admin:
--usuario:
+###admin:
+###usuario:

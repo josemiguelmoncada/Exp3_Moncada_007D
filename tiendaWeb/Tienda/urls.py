@@ -25,4 +25,6 @@ urlpatterns = [
     path('restar/<id>', views.restar_producto, name='restar'),
     path('limpiar/', views.limpiar_carrito, name="limpiar"),
     path('generarBoleta/', views.generarBoleta,name="generarBoleta"),
+    
+    path('accounts/login/', views.login_personalizado, name='login'),
 ]

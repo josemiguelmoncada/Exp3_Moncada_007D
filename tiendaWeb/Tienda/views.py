@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Producto, Tipo_producto, Boleta, DetalleBoleta
 from .forms import ProductoForm, TipoForm, RegistroUsuarioForm
 from Tienda.compras import Carrito
+
 
 # Create your views here.
 
@@ -121,8 +123,13 @@ def login_personalizado(request):
             if user is not None:
                 login(request, user)
                 return redirect('index')
+            else:
+                messages.error(request, 'Usuario o contraseña incorrectos')
+        else:
+            messages.error(request, 'Error en el formulario de autenticación')
     else:
         form = AuthenticationForm()
+    
     return render(request, 'header_ul1.html', {'form': form})
 
 @login_required

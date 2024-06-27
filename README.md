@@ -10,6 +10,9 @@ Descripción breve sobre lo que hace tu proyecto y su propósito.
 
 Paso a paso sobre cómo instalar y configurar el entorno para que el proyecto funcione:
 
+1. Ejecute el archivo pips.bat para instalar las librerias nesesarias de python
+2. Ejecute el archibo runserver.bat o abrir cmd en la carpeta y ejecutar el siguiente comando python manage.py runserver
+
 ## Credenciales
-admin:
-usuario:
+-admin:
+-usuario:

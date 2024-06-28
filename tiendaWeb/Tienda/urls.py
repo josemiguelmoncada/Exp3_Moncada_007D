@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path(r'productos/', views.productos, name='productos'), # borrar proximamente
+    path(r'productos/', views.productos, name='productos'),
     path(r'sobre_nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
     path(r'registro_usuario/', views.registro_usuario, name='registro_usuario'),
     path(r'login/', views.login_personalizado, name='login'),

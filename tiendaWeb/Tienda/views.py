@@ -6,14 +6,22 @@ from django.contrib.auth.decorators import login_required
 from .models import Producto, Tipo_producto, Boleta, DetalleBoleta
 from .forms import ProductoForm, TipoForm, RegistroUsuarioForm
 from Tienda.compras import Carrito
+import locale
 
 
 # Create your views here.
+locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8')
 
+
+def formatear_pesos_chilenos(valor):
+    return locale.currency(valor, symbol=True, grouping=True)
 
 def index(request):
     productos = Producto.objects.order_by('precio')[:4]
-
+    
+    for producto in productos:
+        producto.precio  =  formatear_pesos_chilenos(producto.precio)
+        
     context = {
         'productos': productos
     }
@@ -22,6 +30,10 @@ def index(request):
 
 def productos(request):
     producto = Producto.objects.all()
+    
+    for product in producto:
+        product.precio  =  formatear_pesos_chilenos(product.precio)
+        
     context = {"producto":producto}
     return render(request, 'productos.html', context)
 
@@ -188,15 +200,19 @@ def limpiar_carrito(request):
     carrito_compra.limpiar()
     return redirect('carrito')
 
+
 def ver_carrito(request):
-    producto = Producto(request)
+
+    
     carrito_compra = Carrito(request)
-    subtotal = carrito_compra.obtener_subtotal_iva()
+    subtotal = carrito_compra.obtener_subtotal()
+    subtotal_iva = carrito_compra.obtener_subtotal_iva()
     total = carrito_compra.obtener_total()
     context = {
         'carrito': carrito_compra.carrito,
-        'subtotal': subtotal,
-        'total': total,
+        'subtotal': formatear_pesos_chilenos(subtotal),
+        'subtotal_iva': formatear_pesos_chilenos(subtotal_iva),
+        'total': formatear_pesos_chilenos(total),
     }
     return render(request, 'cart/view_cart.html', context)
 
@@ -221,8 +237,8 @@ def generarBoleta(request):
     datos={
         'productos':productos,
         'fecha':boleta.fechaCompra,
-        'total': round(boleta.total+s_iva),
-        'subtotal_iva': s_iva,
+        'total': formatear_pesos_chilenos(round(boleta.total+s_iva)),
+        'subtotal_iva': formatear_pesos_chilenos(s_iva),
     }
     request.session['boleta'] = boleta.id_boleta
     carrito = Carrito(request)

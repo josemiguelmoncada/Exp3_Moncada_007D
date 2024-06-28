@@ -13,13 +13,11 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
-        .container {
-            display: flex;
-            justify-content: space-around;
+        h2 {
+            text-align: center;
         }
-
-        .module {
-            width: 45%;
+        .table-responsive {
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -46,43 +44,43 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="container my-5">
         <!-- Módulo de Productos -->
-        <div class="module">
+        <div class="table-responsive">
             <h2>Lista de Productos</h2>
-            <table class="table table-bordered alert alert-warning">
-                <thead>
-                    <tr class="text-center">
-                        <td colspan="3" style="font-weight:bold; font-size:18px">CARRITO</td>
+            <table class="table table-bordered">
+                <thead class="table-warning text-center">
+                    <tr>
+                        <th colspan="4" class="font-weight-bold">CARRITO</th>
                     </tr>
                     <tr>
-                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">Imagen</td>
-                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">Nombre</td>
-                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">Precio</td>
-                        <td style="font-size:15px; font-weight: bold; color:black; text-align: center;">Cantidad</td>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if request.session.carrito.items %}
                     {% for key, value in request.session.carrito.items %}
                     <tr>
-
-                        <td style="align-items: center; display: flex;">
-                            <img src="{{ value.imagen }}" alt="" style="max-width: 60px; margin: 0 auto;">
+                        <td class="text-center">
+                            <img src="{{ value.imagen }}" alt="" style="max-width: 60px;">
                         </td>
-                        <td style="font-size:13px">{{ value.nombre }}</td>
-                        <td style="font-size:13px">{{ value.precio }}</td>
-                        <td style="font-size:13px">{{ value.cantidad}}
+                        <td>{{ value.nombre }}</td>
+                        <td>{{ value.precio }}</td>
+                        <td>
+                            {{ value.cantidad }}
                             <br>
-                            <a href="{% url 'agregar1' value.id_producto %}" class="badge btn btn-primary">+</a>
-                            <a href="{% url 'restar' value.id_producto %}" class="badge btn btn-warning">-</a>
+                            <a href="{% url 'agregar1' value.id_producto %}" class="badge bg-primary">+</a>
+                            <a href="{% url 'restar' value.id_producto %}" class="badge bg-warning">-</a>
                         </td>
                     </tr>
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="3">
-                            <div class="alert alert-info text-center" style="font-weight: bold;">Sin Productos</div>
+                        <td colspan="4" class="text-center">
+                            <div class="alert alert-info font-weight-bold">Sin Productos</div>
                         </td>
                     </tr>
                     {% endif %}
@@ -91,63 +89,55 @@
         </div>
 
         <!-- Módulo de Dinero -->
-        <div class="module">
+        <div class="table-responsive">
             <h2>Detalles del Carrito</h2>
-            <div role="alert">
-                {% if request.session.carrito.items %}
-                <table class="table table-bordered alert alert-warning">
-                    <thead>
-                        <tr class="text-center">
-                            <td style="font-weight:bold; font-size:18px; width: 180px;">Código</td>
-                            <td style="font-weight:bold; font-size:18px;">Subtotal</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for key, value in request.session.carrito.items %}
-                        <tr>
-                            <td style="font-size:13px; text-align: center;">{{ value.id_producto }}</td>
-                            <td style="font-size:13px; text-align: center;">{{ value.total }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    <tfoot>
-                        <tr class="text-center">
-                            <td colspan="2" style="font-weight:bold; font-size:18px">IVA</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="font-size:13px; text-align: center;">{{ subtotal }}</td>
-                        </tr>
-                        <tr class="text-center">
-                            <td colspan="2" style="font-weight:bold; font-size:18px">Total</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="font-size:13px; text-align: center;">{{ total }}</td>
-                        </tr>
-                        
-                        <tr class="text-center">
-                            <td colspan="2" style="font-weight:bold; font-size:18px"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="width: 100%;">
-                                <div style="display: flex; justify-content: space-between; width: 100%;">
-                                    <a href="{% url 'limpiar' %}" class="btn btn-outline-warning" style="flex-grow: 1; margin-right: 10px;">Limpiar</a>
-                                    <a href="{% url 'generarBoleta' %}" class="btn btn-outline-primary" style="flex-grow: 1;">Comprar</a>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                    </tfoot>
-                </table>
-                {% if not request.session.carrito.items %}
-                <div class="alert alert-info text-center" style="font-weight: bold;">Sin Productos</div>
-                {% endif %}
-
-                {% endif %}
-
-            </div>
+            {% if request.session.carrito.items %}
+            <table class="table table-bordered">
+                <thead class="table-warning text-center">
+                    <tr>
+                        <th>Código</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, value in request.session.carrito.items %}
+                    <tr>
+                        <td>{{ value.id_producto }}</td>
+                        <td>{{ subtotal }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="text-center">
+                        <th colspan="2" class="font-weight-bold table-warning">IVA</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center">{{ subtotal_iva }}</td>
+                    </tr>
+                    <tr class="text-center">
+                        <th colspan="2" class="font-weight-bold table-warning">Total</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center">{{ total }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'limpiar' %}" class="btn btn-outline-warning w-100 me-2">Limpiar</a>
+                                <a href="{% url 'generarBoleta' %}" class="btn btn-outline-primary w-100">Comprar</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            {% else %}
+            <div class="alert alert-info text-center font-weight-bold">Sin Productos</div>
+            {% endif %}
+        </div>
     </main>
 
     {% include "footer.html" %}
+    <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 
 </html>

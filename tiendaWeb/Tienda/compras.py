@@ -13,7 +13,7 @@ class Carrito:
             self.carrito[producto_id] = {
                 "id_producto": producto.id_producto,
                 "nombre": producto.nombre,
-                "precio": str(producto.precio),
+                "precio": int(producto.precio),
                 "imagen": producto.imagen.url,
                 "cantidad": cantidad,
                 "total": producto.precio * cantidad,
@@ -28,13 +28,13 @@ class Carrito:
                 self.carrito[producto_id]["cantidad"] += cantidad
                 self.carrito[producto_id]["total"] += producto.precio * cantidad
         self.guardar_carrito()
-    
+
     def guardar_carrito(self):
         self.session["carrito"] = self.carrito
         self.session.modified = True
     
     def eliminar(self, producto):
-        producto_id = str(producto.id_producto)
+        producto_id = int(producto.id_producto)
         if producto_id in self.carrito:
             del self.carrito[producto_id]
             self.guardar_carrito()
@@ -64,7 +64,7 @@ class Carrito:
         for item in self.carrito.values():
             subtotal += item["total"]
         return subtotal
-    
+
     def obtener_total(self):
         total = self.obtener_subtotal()
         # Aquí podrías implementar lógica adicional para descuentos, impuestos, etc., si es necesario

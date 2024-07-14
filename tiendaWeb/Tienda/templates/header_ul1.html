@@ -1,240 +1,236 @@
-{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Sitio{% endblock %}</title>
+    {% load static %}
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/log_in.css' %}" />
+    <style>
+        .form-control {
+            margin-bottom: 10px;
+        }
+        label {
+            color: black;
+            font-weight: bold;
+            clear: both;
+            float: left;
+        }
 
-<link
-  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-  rel="stylesheet"
-/>
-<link rel="stylesheet" href="{% static 'css/log_in.css' %}" />
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 23rem;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover, .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-<style>
-  .form-control {
-    margin-bottom: 10px;
-  }
-  label {
-    color: black;
-    font-weight: bold;
-    clear: both;
-    float: left;
-  }
-</style>
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            left: -400%;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
 
-<style>
-  .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-  }
+        .search-dropdown {
+            display: none;
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000; /* Asegura que el dropdown esté por encima de otros elementos */
+            position: absolute;
+            top: calc(100% - 20px);
+            left: 0;
+        }
+        
+        .search-dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        .search-dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#search-input').on('input', function() {
+                const query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '/buscar/',
+                        data: { 'query': query },
+                        dataType: 'json',
+                        success: function(data) {
+                            const dropdown = $('#search-dropdown');
+                            dropdown.empty();
+                            if (data.resultados.length > 0) {
+                                dropdown.show();
+                                data.resultados.forEach(producto => {
+                                    const item = $('<div>').addClass('search-dropdown-item');
+                                    const image = $('<img>').attr('src', producto.imagen).css({ 'width': '50px', 'height': '50px', 'margin-right': '10px' });
+                                    const text = $('<span>').text(`${producto.nombre} - $${producto.precio}`);
+                                    item.append(image).append(text);
+                                    item.on('click', function() {
+                                        window.location.href = producto.url;
+                                    });
+                                    dropdown.append(item);
+                                });
+                            } else {
+                                dropdown.hide();
+                            }
+                        }
+                    });
+                } else {
+                    $('#search-dropdown').hide();
+                }
+            });
+        
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.group').length) {
+                    $('#search-dropdown').hide();
+                }
+            });
 
-  .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-  }
+            // Script para manejar el modal de inicio de sesión
+            var modal = document.getElementById("myModal");
+            var btn = document.getElementById("openModal");
+            var span = document.getElementsByClassName("close")[0];
 
-  .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-  }
+            btn.onclick = function() {
+                modal.style.display = "block";
+            }
 
-  .close:hover,
-  .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-  }
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
 
-  /* Estilo para el menú desplegable */
-  .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-      left: -400%;
-  }
-
-  .dropdown:hover .dropdown-content {
-      display: block;
-  }
-
-  .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-  }
-
-  .dropdown-content a:hover {
-      background-color: #f1f1f1;
-  }
-</style>
-
-<ul class="cont_nav list--none">
-  <li class="cont_header_logo">
-      <a href="{% url 'index' %}">
-          <img src="{% static 'img/Logo.png' %}" alt="logo" />
-      </a>
-      <a onclick="fetchHoroscope()">
-          <img src="{% static 'img/horoscopo.png' %}" style="width: 3.6rem; vertical-align: bottom; margin-left: 5px"
-              alt="---" />
-      </a>
-  </li>
-
-  <div class="group">
-      <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
-          <g>
-              <path
-                  d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
-              </path>
-          </g>
-      </svg>
-      <input placeholder="Search" type="search" class="input" />
-  </div>
-
-  <li class="cont_header_icono">
-      {% if user.is_authenticated %}
-      <!-- Mostrar menú desplegable para usuarios autenticados -->
-      <div class="dropdown">
-          <a href="#" id="perfilDropdown">
-              <span class="material-symbols-outlined">person</span>
-          </a>
-          <div class="dropdown-content">
-              <a href="{% url 'ver_perfil' %}">Ver perfil</a>
-              {% if user.is_staff %}
-                <a href="{% url 'admin:index' %}">
-                <span class="material-symbols-outlined">admin_panel_settings</span>
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    {% block content %}
+    <ul class="cont_nav list--none">
+        <li class="cont_header_logo">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'img/Logo.png' %}" alt="logo" />
+            </a>
+            <a onclick="fetchHoroscope()">
+                <img src="{% static 'img/horoscopo.png' %}" style="width: 3.6rem; vertical-align: bottom; margin-left: 5px" alt="---" />
+            </a>
+        </li>
+        <div class="group" style="position: relative;">
+            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+                <g>
+                    <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+                </g>
+            </svg>
+            <input placeholder="Search" type="search" class="input" id="search-input" />
+            <div id="search-dropdown" class="search-dropdown"></div>
+        </div>
+        <li class="cont_header_icono">
+            {% if user.is_authenticated %}
+            <div class="dropdown">
+                <a href="#" id="perfilDropdown">
+                    <span class="material-symbols-outlined">person</span>
                 </a>
-                <a href="{% url 'panel_admin' %}">
-                <span class="material-symbols-outlined">Manage_Search</span>
-                </a>
-              {% endif %}
-              <a href="{% url 'cerrar' %}">Cerrar sesión</a>
-          </div>
-      </div>
-
-      <a href="{% url 'carrito' %}">
-          <span class="material-symbols-outlined">shopping_cart</span>
-      </a>
-      {% else %}
-      <!-- Mostrar formulario de inicio de sesión para usuarios no autenticados -->
-      <a href="#" id="openModal">
-          <span class="material-symbols-outlined">person</span>
-      </a>
-
-      <div id="myModal" class="modal">
-          <form id="loginForm" name="loginForm" action="{% url 'login' %}" method="POST" class="form">
-              {% csrf_token %}
-              <p id="heading">Inicio De Sesión</p>
-              <div class="field form-control">
-                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                      fill="currentColor" viewBox="0 0 16 16">
-                      <path
-                          d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z">
-                      </path>
-                  </svg>
-                  <input autocomplete="off" placeholder="Username" class="input-field" type="text" name="username"
-                      id="username" />
-              </div>
-              <div class="field form-control">
-                  <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                      fill="currentColor" viewBox="0 0 16 16">
-                      <path
-                          d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
-                      </path>
-                  </svg>
-                  <input placeholder="Password" class="input-field" id="pass" type="password" name="password" />
-                  <i class="bx bx-show-alt" style="color: black"></i>
-              </div>
-              <div class="btn">
-                  <button type="submit" class="button1">
-                      &nbsp;&nbsp;&nbsp;Inicio De Sesión&nbsp;&nbsp;&nbsp;
-                  </button>
-                  <a href="{% url 'registro_usuario' %}" class="button2" style="font-weight: bold">Registrarse</a>
-              </div>
-              <button class="button3">Olvidé mi contraseña</button>
-          </form>
-      </div>
-      {% endif %}
-  </li>
-</ul>
-
-<!-- Modal para el carrito de compras -->
-<div id="cartModal" class="modal">
-  <div class="modal-content">
-      <span class="close" id="closeCartModal">&times;</span>
-      <h2>Carrito de Compras</h2>
-      <ul id="cartItems">
-          <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
-      </ul>
-      <button id="checkoutButton">Ver Detalles</button>
-  </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  // Script para abrir el modal de inicio de sesión
-  $(document).ready(function () {
-      $("#openModal").on("click", function () {
-          $("#myModal").css("display", "block");
-      });
-
-      $(".close").on("click", function () {
-          $("#myModal").css("display", "none");
-      });
-
-      $(window).on("click", function (e) {
-          if (e.target == $("#myModal")[0]) {
-              $("#myModal").css("display", "none");
-          }
-      });
-
-      // Manejar el envío del formulario de inicio de sesión con validación básica
-      $("#loginForm").on("submit", function (e) {
-          var isValid = true;
-          var username = $("#username").val();
-          var password = $("#pass").val();
-
-          if (username === "") {
-              isValid = false;
-              alert("Por favor, ingrese su nombre de usuario.");
-          }
-
-          if (password === "") {
-              isValid = false;
-              alert("Por favor, ingrese su contraseña.");
-          }
-
-          if (!isValid) {
-              e.preventDefault();
-          }
-      });
-  });
-
-  // Script para abrir el modal del carrito de compras
-  $("#cartModalBtn").on("click", function () {
-      $("#cartModal").css("display", "block");
-  });
-
-  $("#closeCartModal").on("click", function () {
-      $("#cartModal").css("display", "none");
-  });
-
-  $(window).on("click", function (e) {
-      if (e.target == $("#cartModal")[0]) {
-          $("#cartModal").css("display", "none");
-      }
-  });
-</script>
-<script src="{% static 'js/modal.js' %}"></script>
-<script src="{% static 'js/rutinas.js' %}"></script>
+                <div class="dropdown-content">
+                    <a href="{% url 'ver_perfil' %}">Ver perfil</a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}">
+                        <span class="material-symbols-outlined">admin_panel_settings</span>
+                    </a>
+                    <a href="{% url 'panel_admin' %}">
+                        <span class="material-symbols-outlined">Manage_Search</span>
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'cerrar' %}">Cerrar sesión</a>
+                </div>
+            </div>
+            <a href="{% url 'carrito' %}">
+                <span class="material-symbols-outlined">shopping_cart</span>
+            </a>
+            {% else %}
+            <a href="#" id="openModal">
+                <span class="material-symbols-outlined">person</span>
+            </a>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form id="loginForm" name="loginForm" action="{% url 'login' %}" method="POST" class="form">
+                        {% csrf_token %}
+                        <p id="heading">Inicio De Sesión</p>
+                        <div class="field form-control">
+                            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43 .199-1.354 .328-2.29 .328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"></path>
+                            </svg>
+                            <input autocomplete="off" placeholder="Username" class="input-field" type="text" name="username" id="username" />
+                        </div>
+                        <div class="field form-control">
+                            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+                            </svg>
+                            <input placeholder="Password" class="input-field" id="pass" type="password" name="password" />
+                            <i class="bx bx-show-alt" style="color: black"></i>
+                        </div>
+                        <div class="btn">
+                            <button type="submit" class="button1">
+                                &nbsp;&nbsp;&nbsp;Inicio De Sesión&nbsp;&nbsp;&nbsp;
+                            </button>
+                            <a href="{% url 'registro_usuario' %}" class="button2" style="font-weight: bold">Registrarse</a>
+                        </div>
+                        <button class="button3">Olvidé mi contraseña</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </li>
+    </ul>
+    {% endblock %}
+</body>
+</html>

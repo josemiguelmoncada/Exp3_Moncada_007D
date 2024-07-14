@@ -1,46 +1,5 @@
 const { response } = require("express");
 
-function pag() {
-  miAPIRES();
-}
-
-function miAPIRES() {
-  const url = "http://localhost:3000/productos";
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => cardProducto(data))
-    .catch((error) => console.log(error));
-
-  const cardProducto = (data) => {
-    console.log(data);
-    let card = "";
-
-    for (let i = 0; i < data.length; i++) {
-      card += `
-            <div class="card">
-            <a href="producto_card.html" class="link_card">
-            <img src="${data[i].img}" class="card-img-top" alt="..." />
-            <div class="card-body">
-            <h5 class="card-title">${data[i].nombre}</h5>
-            <div class="precio">
-                <p>
-                  Precio:
-                  <span> $${data[i].precio} </span>
-                </p>
-            </div>
-            </div>
-            <span class="mensaje">
-              ${data[i].descripcion}
-            </span>
-            </a>
-            </div>
-            `;
-    }
-
-    document.getElementById("contenedor_cartas").innerHTML = card;
-  };
-}
 
 /* 
 <div class="card">

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <ul id="productos-lista"></ul>
+
+    <script>
+        const url = "/api/productos/";
+
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => cardProducto(data))
+    .catch((error) => console.log('There was a problem with the fetch operation:', error));
+
+
+const cardProducto = (data) => {
+  console.log(data);
+  let card = "";
+
+  for (let i = 0; i < data.length; i++) {
+    const producto = data[i];
+    const imagen = producto.imagen ? producto.imagen : 'ruta_por_defecto.png';  // Ruta por defecto si no hay imagen
+
+    card += `
+        <div class="card">
+        <a href="/producto/${producto.id_producto}" class="link_card">
+        <img src="${imagen}" class="card-img-top" alt="${producto.nombre}" />
+        <div class="card-body">
+        <h5 class="card-title">${producto.nombre}</h5>
+        <div class="precio">
+            <p>
+              Precio:
+              <span> $${producto.precio} </span>
+            </p>
+        </div>
+        </div>
+        <span class="mensaje">
+          ${producto.descripcion}
+        </span>
+        </a>
+        </div>
+        `;
+  }
+
+  document.getElementById("contenedor_cartas").innerHTML = card;
+};
+    </script>
+</body>
+</html>

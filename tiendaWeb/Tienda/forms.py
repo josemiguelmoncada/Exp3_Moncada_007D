@@ -145,3 +145,6 @@ class RegistroUsuarioForm(UserCreationForm):
         
 class EmailForm(forms.Form):
     email = forms.EmailField(label='Nuevo correo electrónico', max_length=254)
+
+class BuscarProductoForm(forms.Form):
+    query = forms.CharField(label="Buscar", max_length=100)

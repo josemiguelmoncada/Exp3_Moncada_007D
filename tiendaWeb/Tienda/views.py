@@ -4,17 +4,49 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Producto, Tipo_producto, Boleta, DetalleBoleta
-from .forms import ProductoForm, TipoForm, RegistroUsuarioForm
+from .forms import ProductoForm, TipoForm, RegistroUsuarioForm, BuscarProductoForm
+from rest_framework import generics
+from .serializers import ProductoSerializer
 from Tienda.compras import Carrito
+import os
+import json
+from django.conf import settings
+from django.http import JsonResponse
 import locale
 
 
 # Create your views here.
 locale.setlocale(locale.LC_ALL, 'es_CL.UTF-8')
 
-
 def formatear_pesos_chilenos(valor):
     return locale.currency(valor, symbol=True, grouping=True)
+
+
+
+class ProductoList(generics.ListAPIView):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+
+
+def mostrar_productos(request):
+    return render(request, 'productos.html')
+
+def exportarJSON(request):
+    productos = Producto.objects.all().values()
+    productos_list = list(productos)
+    file_path = os.path.join(settings.MEDIA_ROOT, 'productos.json')
+    with open(file_path, 'w') as json_file:
+        json.dump(productos_list, json_file)
+    
+    return redirect('panel_admin')
+    # return JsonResponse({'message': 'Productos exportados correctamente', 
+    #                      'file_path': settings.MEDIA_URL + 'productos.json'})
+
+
+
+
+
+
 
 def index(request):
     productos = Producto.objects.order_by('precio')[:4]
@@ -39,6 +71,26 @@ def productos(request):
 
 def sobre_nosotros(request):
     return render(request, 'sobre_nosotros.html')
+
+def buscar_productos(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        query = request.GET.get('query', '')
+        resultados = Producto.objects.filter(nombre__icontains=query)
+        productos = [
+            {
+                'nombre': producto.nombre,
+                'precio': str(producto.precio),
+                'imagen': producto.imagen.url if producto.imagen else '',
+                'id_producto': producto.id_producto,
+                'url': f'/producto/{producto.id_producto}'
+            }
+            for producto in resultados
+        ]
+        return JsonResponse({'resultados': productos})
+    
+    form = BuscarProductoForm()
+    return render(request, 'buscar_productos.html', {'form': form})
+
 
 @login_required
 def panel_admin(request):

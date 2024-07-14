@@ -40,3 +40,4 @@ class DetalleBoleta(models.Model):
     
     def __str__(self):
         return str(self.id_detalle_boleta)
+    

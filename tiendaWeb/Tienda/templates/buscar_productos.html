@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        
+        .dropdown {
+            display: none;
+            background-color: white;
+            border: 1px solid #ccc;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 0;
+        }
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.input').on('input', function() {
+                const query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '/buscar/',
+                        data: {
+                            'query': query
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            const dropdown = $('.dropdown');
+                            dropdown.empty();
+                            if (data.resultados.length > 0) {
+                                dropdown.show();
+                                data.resultados.forEach(producto => {
+                                    const item = $('<div>').addClass('dropdown-item');
+                                    const image = $('<img>').attr('src', producto.imagen).css('width', '50px').css('height', '50px').css('margin-right', '10px');
+                                    const text = $('<span>').text(`${producto.nombre} - $${producto.precio}`);
+                                    item.append(image).append(text);
+                                    item.on('click', function() {
+                                        window.location.href = producto.url;
+                                    });
+                                    dropdown.append(item);
+                                });
+                            } else {
+                                dropdown.hide();
+                            }
+                        }
+                    });
+                } else {
+                    $('.dropdown').hide();
+                }
+            });
+
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.group').length) {
+                    $('.dropdown').hide();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="group" style="position: relative;">
+        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+            <g>
+                <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path>
+            </g>
+        </svg>
+        <input placeholder="Search" type="search" class="input" />
+        <div class="dropdown"></div>
+    </div>
+
+    
+</body>
+</html>
